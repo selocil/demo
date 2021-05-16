@@ -23,23 +23,24 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 
 	}
-
+        //Return greeting
 	@GetMapping("/hello")
 	public String hello(@RequestParam(value = "name", defaultValue = "Selin") String name) {
 		return String.format("Hello %s!", name);
 	}
 
+	//Sucessfull if return = 200
 	@PostMapping("/check")
 	public ResponseEntity<String> checker(@RequestBody String wordchecker) {
-		// Hier checkt er gegen mit equals() --> nicht == verwenden!
-		if (wordchecker.equals("check mich")) {
+		
+		if (wordchecker.equals("check")) {
 			// HttpStatus.OK ist 200 also alles i.o.
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
-		// HttpStatus.BadRequest ist 400 also fehlerhafte Eingabe
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
-
+        
+	//Java to JSON
 	@GetMapping("/student")
 	public String viewStudents () {
 		Student student1 = new Student("Selin");
@@ -57,6 +58,7 @@ public class DemoApplication {
 		return studentObjectMappedToJSONString;
 	}
 
+	//Insert student to Database
 	@PostMapping("/student")
 	public String createPerson(@RequestParam(value = "name", defaultValue = "World") String name) {
 		Student student = new Student(name);
@@ -77,4 +79,33 @@ public class DemoApplication {
 
 		return "Studierende/r wurde erfolgreich in der Datenbank persistiert.";
 	}
+	//DB to JSON
+	@GetMapping("/sqlstudent")
+        public String viewSQLStudents() {
+                Student student = new Student();
+
+                StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure().build();
+
+                Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+                SessionFactory factory = meta.getSessionFactoryBuilder().build();
+                Session session = factory.openSession();
+
+                session.beginTransaction();
+                Student studi = session.load(Student.class, 1L);
+                session.flush();
+
+                String studentObjectMappedToJSONString = null;
+                ObjectMapper om = new ObjectMapper();
+                om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+   
+                try {
+                    studentObjectMappedToJSONString = om.writeValueAsString(studi);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+                return studentObjectMappedToJSONString;
+
+
+    }
 }

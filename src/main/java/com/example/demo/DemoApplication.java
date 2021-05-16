@@ -79,7 +79,7 @@ public class DemoApplication {
 
 		return "Studierende/r wurde erfolgreich in der Datenbank persistiert.";
 	}
-	//DB to JSON
+	//Database to JSON
 	@GetMapping("/sqlstudent")
         public String viewSQLStudents() {
                 Student student = new Student();

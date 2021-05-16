@@ -2,11 +2,7 @@ package com.example.demo;
 
 import javax.persistence.*;
 
-//@MappedSuperclass
-//public class Person {
-//@Column(name = "name")
 @Entity
-//@Table(name = "Datensatz")
 public class Student {
         private String name;
         private int age;

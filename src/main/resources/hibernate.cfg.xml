@@ -9,7 +9,6 @@
         <property name="hibernate.connection.password"/>
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
-        <mapping class="de.thbrandenburg.ciloglan.webapp.Student"/>
-        <mapping class="de.thbrandenburg.ciloglan.webapp.Person"/>
+        <mapping class="com.example.demo.Student"/>
     </session-factory>
 </hibernate-configuration>

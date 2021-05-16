@@ -58,7 +58,7 @@ public class DemoApplication {
 		return studentObjectMappedToJSONString;
 	}
 
-	//Insert student to Database
+	//Insert student in Database
 	@PostMapping("/student")
 	public String createPerson(@RequestParam(value = "name", defaultValue = "World") String name) {
 		Student student = new Student(name);
@@ -91,7 +91,7 @@ public class DemoApplication {
                 Session session = factory.openSession();
 
                 session.beginTransaction();
-                Student studi = session.load(Student.class, 1L);
+                Student student1 = session.load(Student.class, 1L);
                 session.flush();
 
                 String studentObjectMappedToJSONString = null;
@@ -99,7 +99,7 @@ public class DemoApplication {
                 om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
    
                 try {
-                    studentObjectMappedToJSONString = om.writeValueAsString(studi);
+                    studentObjectMappedToJSONString = om.writeValueAsString(student1);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
